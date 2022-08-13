@@ -1,9 +1,11 @@
 import { FaTrashAlt, FaPlusSquare } from "react-icons/fa"
+import { Container, PokemonList } from "./styles"
 
 function ListPokemons({ allPokemons, addPokemon, deletePokemon, myPokemon }) {
   return (
-    <>
-      <ul>
+    <Container>
+      <PokemonList type="all">
+        <h2>Todos os pokemons</h2>
         {allPokemons.map((pokemon, index) => {
           return (
             <li key={index + 1}>
@@ -15,9 +17,10 @@ function ListPokemons({ allPokemons, addPokemon, deletePokemon, myPokemon }) {
             </li>
           )
         })}
-      </ul>
+      </PokemonList>
 
-      <ul>
+      <PokemonList>
+        <h2>Meus Pokemons</h2>
         {myPokemon.map((pokemon, index) => {
           return (
             <li key={index + 1}>
@@ -29,8 +32,8 @@ function ListPokemons({ allPokemons, addPokemon, deletePokemon, myPokemon }) {
             </li>
           )
         })}
-      </ul>
-    </>
+      </PokemonList>
+    </Container>
   )
 }
 

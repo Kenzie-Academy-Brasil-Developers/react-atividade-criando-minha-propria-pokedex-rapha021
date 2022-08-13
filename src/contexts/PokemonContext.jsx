@@ -1,4 +1,5 @@
 import { createContext, useState } from "react"
+import { toast } from "react-toastify"
 import api from "../services/api"
 
 export const PokemonContext = createContext({})
@@ -12,7 +13,7 @@ function PokemonProvider({ children }) {
   }
 
   function addPokemon(name) {
-    const pokemon = api.get(`${name}`).then((res) => {
+    api.get(`${name}`).then((res) => {
       !myPokemon.find((pokemon) => pokemon.name === res.data.name) &&
         setMyPokemon([...myPokemon, res.data])
     })
@@ -23,9 +24,27 @@ function PokemonProvider({ children }) {
     setMyPokemon([...pokemonFiltered])
   }
 
+  function searchPokemon(name) {
+    api
+      .get(name)
+      .then((res) => addPokemon(res.data.name))
+      .catch((err) =>
+        toast.error("pokemon não encontrado", {
+          toastId: "error",
+        })
+      )
+  }
+
   return (
     <PokemonContext.Provider
-      value={{ allPokemon, myPokemon, getPokemon, addPokemon, deletePokemon }}
+      value={{
+        allPokemon,
+        myPokemon,
+        getPokemon,
+        addPokemon,
+        deletePokemon,
+        searchPokemon,
+      }}
     >
       {children}
     </PokemonContext.Provider>
